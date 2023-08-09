@@ -1,7 +1,8 @@
 import getUser from "@/lib/getUser";
 import getUserPosts from "@/lib/getUserPosts";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
+import UserPost from "./Components/page";
 type Params = {
   params: {
     userId: string;
@@ -11,16 +12,16 @@ type Params = {
 const UserPage = async ({ params: { userId } }: Params) => {
   const userData: Promise<User> = getUser(userId);
   const userPostsData: Promise<Post[]> = getUserPosts(userId);
-  const [user, userPosts] = await Promise.all([userData, userPostsData]);
+  const user = await userData;
+  // const [user, userPosts] = await Promise.all([userData, userPostsData]);
   return (
     <>
       <h1>{user.name}</h1>
       <br />
-      <p>
-        {userPosts.map((post) => {
-          return <p key={post.id}>Title: {post.title}</p>;
-        })}
-      </p>
+      <Suspense fallback={<h2>Loading...</h2>}>
+        <UserPost promise={userPostsData}/>
+      
+      </Suspense>
       <Link href="/users">Back</Link>
     </>
   );
