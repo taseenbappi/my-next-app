@@ -3,10 +3,15 @@ import getUserPosts from "@/lib/getUserPosts";
 import Link from "next/link";
 import React, { Suspense } from "react";
 import UserPost from "./Components/page";
+import type { Metadata } from "next";
 type Params = {
   params: {
     userId: string;
   };
+};
+
+export const metadata: Metadata = {
+  title: "User Posts",
 };
 
 const UserPage = async ({ params: { userId } }: Params) => {
@@ -19,8 +24,7 @@ const UserPage = async ({ params: { userId } }: Params) => {
       <h1>{user.name}</h1>
       <br />
       <Suspense fallback={<h2>Loading...</h2>}>
-        <UserPost promise={userPostsData}/>
-      
+        <UserPost promise={userPostsData} />
       </Suspense>
       <Link href="/users">Back</Link>
     </>
