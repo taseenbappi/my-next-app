@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { Suspense } from "react";
 import UserPost from "./Components/page";
 import type { Metadata } from "next";
+import getAllUsers from "@/lib/getAllUsers";
 type Params = {
   params: {
     userId: string;
@@ -43,5 +44,13 @@ const UserPage = async ({ params: { userId } }: Params) => {
     </>
   );
 };
+//SSG generated func
+export async function generateStaticParams() {
+  const userData: Promise<User[]> = getAllUsers();
+  const users = await userData;
+  return users.map((user) => ({
+    userId: user.id.toString(),
+  }));
+}
 
 export default UserPage;
