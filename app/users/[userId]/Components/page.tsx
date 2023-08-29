@@ -3,7 +3,6 @@ type Props = {
 };
 const UserPost = async ({ promise }: Props) => {
   const userPosts = await promise;
-  console.log(userPosts);
   const content = userPosts?.map((item) => {
     return (
       <article key={item.id} className="text-left me-auto bg-sky-500/100 m-1">
