@@ -10,9 +10,22 @@ type Params = {
   };
 };
 
-export const metadata: Metadata = {
-  title: "User Posts",
-};
+//Static metadata
+// export const metadata: Metadata = {
+//   title: "User Posts",
+// };
+
+// dynamic metadata func
+export async function generateMetadata({
+  params: { userId },
+}: Params): Promise<Metadata> {
+  const userData: Promise<User> = getUser(userId);
+  const user = await userData;
+  return {
+    title: user.name,
+    description: "This is user name",
+  };
+}
 
 const UserPage = async ({ params: { userId } }: Params) => {
   const userData: Promise<User> = getUser(userId);
